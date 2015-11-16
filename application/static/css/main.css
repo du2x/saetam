@@ -1,0 +1,21 @@
+
+/* Main stylesheet */
+.md-toolbar-tools h1 {
+  font-size: inherit;
+  font-weight: inherit;
+  margin: inherit;
+}
+
+label{
+	font-size:16px;
+	color: rgba(0, 0, 0, 0.541176);
+	padding: 4px;
+}
+.nav-item{
+	width: 100%;
+}
+
+.nav-item a {
+margin: 4px 16px; 
+}
+/* Your customizations here */

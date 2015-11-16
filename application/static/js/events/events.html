@@ -1,0 +1,17 @@
+<div ng-ctrl="EventsCtrl">
+	<div ng-repeat="event in events">
+    <md-card>
+      <img ng-src="{{event.event_img}}" class="md-card-image">
+      <md-card-content>
+        <h2 class="md-title">{{ event.event_name }}</h2>
+        <p>
+			{{ event.event_description }}
+        </p>
+      </md-card-content>
+      <div class="md-actions" layout="row" layout-align="end center">
+        <a class="md-primary" href="#/events/{{event.id}}/edit" >Editar</a>
+        <md-button>Action 2</md-button>
+      </div>
+    </md-card>	
+    </div>
+</div>	
