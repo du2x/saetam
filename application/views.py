@@ -4,6 +4,8 @@
 views.py
 URL route handlers
 """
+import traceback
+
 import json
 
 from datetime import datetime
@@ -35,17 +37,17 @@ def list_events_json():
     events = [event.serialize for event in events]
     return jsonify(data=events)
 
-@app.route('/events/<int:event_id>', methods=['GET'])
-def get_event(event_id):
-    event = EventModel.get_by_id(event_id)
+@app.route('/events/<event_id>', methods=['GET'])
+def get_event(event_id):    
+    event = EventModel.objects.get(id=event_id)    
     if not event:
         return abort(404)
     return jsonify(data=event.serialize)
 
 @app.route('/events/<int:event_id>/update', methods=['POST'])
 def update_event(event_id):
-    try:
-        event = EventModel.get_by_id(event_id)
+    try:        
+        event = EventModel.objects.get(_id=event_id)
         if not event:
             return abort(404)
         posted_event = request.get_json()        
@@ -55,7 +57,7 @@ def update_event(event_id):
         event.event_state = posted_event['event_state']
         event.event_city = posted_event['event_city']
         event.event_img = posted_event['event_img']
-        event.put()
+        event.save()
         return jsonify(status='success')
     except:
         return jsonify(status='error', msg='Unknown error.')
@@ -71,10 +73,11 @@ def insert_event():
         event.event_state = posted_event['event_state']
         event.event_city = posted_event['event_city']
         event.event_img = posted_event['event_img']
-        event.put()
+        event.save()
         return jsonify(status='success')
-    except:
-        return jsonify(status='error', msg='Unknown error.')
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify(status='error', msg='Unknown error.' )
 
 @app.route('/events/<int:event_id>/tickets/new', methods=['POST'])
 def add_ticket(event_id):
@@ -89,7 +92,7 @@ def add_ticket(event_id):
     ticket.ticket_amount = posted_ticket['ticket_amount']
     try:
         event.tickets.append(ticket)
-        event.put()
+        event.save()
         return jsonify(status='success')
     except:
         return jsonify(status='error', msg='Unknown error.')

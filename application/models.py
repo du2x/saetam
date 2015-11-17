@@ -57,7 +57,7 @@ class EventModel(Document):
     @property
     def serialize(self):        
         return {
-            'id': self.id,
+            'id': str(self.id),
             'event_name': self.event_name,
             'event_description': self.event_description,
             'event_state': self.event_state,
